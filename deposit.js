@@ -1,7 +1,7 @@
 
 function Deposit() {
   const ctx = React.useContext(UserContext);
-  const user = ctx.users[0].name;
+  const user = ctx.users[0];
   const [balance, setBalance] = React.useState("");
   const [deposit, setDeposit] = React.useState("");
   const [show, setShow] = React.useState(true);
@@ -12,9 +12,10 @@ function Deposit() {
   }
 
   function handleDeposit() {
+    let balance = Integer.parseInt(user[4]);
     let deposit = document.getElementById("deposit").value;
     if (deposit > 0 && !isNaN(deposit)) {
-        user.balance += deposit = balance;
+        balance += deposit = balance;
         setBalance({balance});
         console.log(balance);
     } else {
