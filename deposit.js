@@ -1,8 +1,7 @@
-
 function Deposit() {
   const ctx = React.useContext(UserContext);
-  const user = ctx.users[0];
-  const [balance, setBalance] = React.useState("");
+  const user = ctx.users[ctx.users.length - 1];
+  const userBalance = user.balance;
   const [deposit, setDeposit] = React.useState("");
   const [show, setShow] = React.useState(true);
 
@@ -11,25 +10,38 @@ function Deposit() {
     setShow(true);
   }
 
-  function handleDeposit() {
-    let balance = Integer.parseInt(user[4]);
-    let deposit = document.getElementById("deposit").value;
-    if (deposit > 0 && !isNaN(deposit)) {
-        balance += deposit = balance;
-        setBalance({balance});
-        console.log(balance);
+  function validate() {
+    let amount = Number(document.getElementById("deposit").value);
+    if (NaN || amount < 0) {
+      return false;
+    }
+    return true;
+  }
+
+  function handleDeposit(amount) {
+    let deposit = Number(document.getElementById("deposit").value);
+    console.log(userBalance, deposit);
+    if (validate(amount)) {
+      user.balance = user.balance + deposit;
+      setShow(false);
     } else {
-        alert("Deposit must be a positive number!");
+      alert("Deposit must be a positive number!");
     }
   }
+
   return (
     <Card
-      bgcolor="primary"
+      bgcolor="warning"
       header="Deposit"
       //status={status}
       body={
         show ? (
           <>
+            <h3>Hello, {user.name}!</h3>
+            <br />
+            <h4>Your Current Account Balance: {user.balance}</h4>
+            <br />
+            <hr></hr>
             <br />
             Deposit Amount
             <br />
@@ -55,10 +67,10 @@ function Deposit() {
           <>
             <h3>Successful deposit transaction!</h3>
             <br />
-            <h5>New balance is user.balance</h5>
+            <h5>New balance is {user.balance}</h5>
 
             <button type="submit" className="btn btn-light" onClick={clearForm}>
-              Add another account
+              Deposit More Funds
             </button>
           </>
         )
